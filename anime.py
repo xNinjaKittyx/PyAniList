@@ -1,4 +1,10 @@
 
+
+try:
+    import ujson as json
+except ImportError:
+    import json
+
 from exceptions import InvalidResponse
 
 

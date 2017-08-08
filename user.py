@@ -1,8 +1,4 @@
 
-import asyncio
-
-import aiohttp
-
 # Having ujson will give you a free performance boost.
 try:
     import ujson as json
