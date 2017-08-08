@@ -10,7 +10,7 @@ from exceptions import InvalidResponse
 
 class User:
     """AniList User Object"""
-    def __init__(self, user, session, small=False):
+    def __init__(self, user, session, access_token, small=False):
         """Returns a User Object.
 
         Parameters:

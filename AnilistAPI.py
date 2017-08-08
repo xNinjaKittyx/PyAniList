@@ -1,7 +1,6 @@
 """ This is an asynchronous API wrapper for AniList """
 
 import asyncio
-import time
 
 import aiohttp
 
@@ -17,6 +16,7 @@ from exceptions import InvalidResponse
 from manga import Manga
 from staff import Staff
 from studio import Studio
+from token import Token
 from user import User
 
 
@@ -47,49 +47,12 @@ class AniListClient:
         self.url = 'https://anilist.co/api/'
         self.session = aiohttp.ClientSession(loop=self.loop, json_serialize=json.dumps)
         self.time = 0
-        self.access_token, self.refresh_token = None, None
-        self.loop.run_until_complete(self._get_access_token(client_pin))
-
-    async def _get_access_token(self, client_pin):
-        async with self.session.post(
-            self.url + 'auth/access_token',
-            data={
-                'grant_type': 'authorization_pin',
-                'client_id': self.client_id,
-                'client_secret': self.client_secret,
-                'code': client_pin
-            }
-        ) as resp:
-            if resp.status != 200:
-                print('ERROR: AniListSession returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "Did not receive status 200.")
-            response = await resp.json(loads=json.loads)
-        self.access_token = response['access_token']
-        self.refresh_token = response['refresh_token']
-
-    async def _refresh_access_token(self):
-        t = time.time()
-        if t - self.time >= 3600:
-            self.time = t
-            async with self.session.post(
-                self.url + 'auth/access_token',
-                data={
-                    'grant_type': 'refresh_token',
-                    'client_id': self.client_id,
-                    'client_secret': self.client_secret,
-                    'code': self.refresh_token
-                }
-            ) as resp:
-                if resp.status != 200:
-                    print('ERROR: AniListSession returned error code : ' + str(resp.status))
-                    raise AuthenticationError(resp.status, "Did not receive status 200.")
-                response = await resp.json(loads=json.loads)
-                self.access_token = response['access_token']
+        self.token = Token(self.loop, self.session, self.client_id, self.client_secret, self.refresh_token)
 
     async def get_user(self, user: str):
         await self._refresh_access_token()
         async with self.session.get(
-            self.url + 'user/' + user
+            self.url + 'user/' + user + '?access_token=' + self.token.access_token
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
