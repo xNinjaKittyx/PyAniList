@@ -1,5 +1,7 @@
 # Unofficial API Wrapper for AniList written in Python.
 
+[![Documentation Status](https://readthedocs.org/projects/pyanilist/badge/?version=latest)](http://pyanilist.readthedocs.io/en/latest/?badge=latest)
+
 This is simply a wrapper around AniList's API.
 
 ## AniList API Terms of use
