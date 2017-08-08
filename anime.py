@@ -10,7 +10,7 @@ from exceptions import InvalidResponse
 
 class Anime:
     """AniList Anime Object"""
-    def __init__(self, anime, session, access_token, small=False):
+    def __init__(self, anime, session, token, small=False):
         """Returns an Anime Object.
         These objects will not support deprecated values.
         Start/End Date are referring to Fuzzy objects, just shortened for brevity.
@@ -26,7 +26,7 @@ class Anime:
         """
         self.session = session
         self.url = 'https://anilist.co/api/'
-        self.access_token = access_token
+        self.token = token
         self.id = anime['id']
         self.series_type = anime['series_type']
         self.title_romaji = anime['title_romaji']

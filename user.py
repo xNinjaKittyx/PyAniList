@@ -10,7 +10,7 @@ from exceptions import InvalidResponse
 
 class User:
     """AniList User Object"""
-    def __init__(self, user, session, access_token, small=False):
+    def __init__(self, user, session, token, small=False):
         """Returns a User Object.
 
         Parameters:
@@ -22,7 +22,7 @@ class User:
         """
         self.session = session
         self.url = 'https://anilist.co/api/'
-        self.access_token = access_token
+        self.token = token
         self.id = user['id']
         self.display_name = user['display_name']
         self.image_url_lge = user.get('image_url_lge', None)
@@ -46,7 +46,8 @@ class User:
 
     async def get_activity(self, page: int=0):
         async with self.session.get(
-            self.url + 'user/' + str(self.id) + '/activity?page=' + str(page) + '&access_token=' + self.access_token
+            self.url + 'user/' + str(self.id) + '/activity?page=' +
+            str(page) + '&access_token=' + self.token.access_token
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
@@ -55,7 +56,7 @@ class User:
 
     async def get_following(self):
         async with self.session.get(
-            self.url + 'user/' + str(self.id) + '/following?access_token=' + self.access_token
+            self.url + 'user/' + str(self.id) + '/following?access_token=' + self.token.access_token
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
@@ -64,7 +65,7 @@ class User:
 
     async def get_follwers(self):
         async with self.session.get(
-            self.url + 'user/' + str(self.id) + '/followers?access_token=' + self.access_token
+            self.url + 'user/' + str(self.id) + '/followers?access_token=' + self.token.access_token
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
@@ -73,7 +74,7 @@ class User:
 
     async def get_favourites(self):
         async with self.session.get(
-            self.url + 'user/' + str(self.id) + '/favourites?access_token=' + self.access_token
+            self.url + 'user/' + str(self.id) + '/favourites?access_token=' + self.token.access_token
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
@@ -82,7 +83,8 @@ class User:
 
     async def get_anime_list(self, raw=False):
         async with self.session.get(
-            self.url + 'user/' + str(self.id) + '/animelist' + ('/raw' if raw else '') + '?access_token=' + self.access_token
+            self.url + 'user/' + str(self.id) + '/animelist' +
+            ('/raw' if raw else '') + '?access_token=' + self.token.access_token
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
@@ -91,7 +93,8 @@ class User:
 
     async def get_manga_list(self, raw=False):
         async with self.session.get(
-            self.url + 'user/' + str(self.id) + '/mangalist' + ('/raw' if raw else '') + '?access_token=' + self.access_token
+            self.url + 'user/' + str(self.id) + '/mangalist' +
+            ('/raw' if raw else '') + '?access_token=' + self.token.access_token
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))

@@ -3,4 +3,6 @@ from exceptions import InvalidResponse
 
 
 class Studio:
-    pass
+    """AniList Studio Object"""
+    def __init__(self, studio, session, token, small=False):
+        pass

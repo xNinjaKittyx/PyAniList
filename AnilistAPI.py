@@ -50,7 +50,6 @@ class AniListClient:
         self.token = Token(self.loop, self.session, self.client_id, self.client_secret, self.refresh_token)
 
     async def get_user(self, user: str):
-        await self._refresh_access_token()
         async with self.session.get(
             self.url + 'user/' + user + '?access_token=' + self.token.access_token
         ) as resp:
@@ -61,6 +60,9 @@ class AniListClient:
             return User(response, self.session)
 
     async def search_users(self, query: str):
+        async with self.session.get(
+            self.url + 'user/search/' + query + '?access_token=' + self.token.access_token
+        )
         pass
 
     async def get_activity(self):

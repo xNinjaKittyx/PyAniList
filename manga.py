@@ -3,4 +3,6 @@ from exceptions import InvalidResponse
 
 
 class Manga:
-    pass
+    """AniList Manga Object"""
+    def __init__(self, manga, session, token, small=False):
+        pass
