@@ -47,7 +47,7 @@ class AniListClient:
         self.url = 'https://anilist.co/api/'
         self.session = aiohttp.ClientSession(loop=self.loop, json_serialize=json.dumps)
         self.time = 0
-        self.token = Token(self.loop, self.session, self.client_id, self.client_secret, self.refresh_token)
+        self.token = Token(self.loop, self.session, self.client_id, self.client_secret, self.client_pin)
         self.user = None
         self.loop.run_until_complete(self.get_current_user())
 
