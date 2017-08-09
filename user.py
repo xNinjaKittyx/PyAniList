@@ -63,7 +63,7 @@ class User:
                 raise AuthenticationError(resp.status, "user.get_activity did not receive status 200.")
             return await resp.json(loads=json.loads)
 
-    async def get_follwers(self):
+    async def get_followers(self):
         async with self.session.get(
             self.url + 'user/' + str(self.id) + '/followers?access_token=' + self.token.access_token
         ) as resp:
