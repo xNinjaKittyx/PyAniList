@@ -76,7 +76,7 @@ class AniListClient:
         async with self.session.get(
             self.url + 'user/search/' + query + '?access_token=' + self.token.access_token
         ) as resp:
-            if resp.status != 200
+            if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
                 raise AuthenticationError(resp.status, "Did not receive status 200.")
             response = await resp.json(loads=json.loads)
@@ -107,23 +107,121 @@ class AniListClient:
     async def get_manga_list(self, raw=False):
         await self.user.get_manga_list(raw)
 
-    async def create_activity(self):
+    async def create_activity_status(self, text: str):
+        async with self.session.post(
+            self.url + 'user/activity?access_token=' + self.token.access_token,
+                payload={
+                    'text': text
+                }
+        ) as resp:
+            if resp.status != 200:
+                return False
+            return True
+
+    async def create_activity_message(self, text: str, user_id: int):
+        async with self.session.post(
+            self.url + 'user/activity?access_token=' + self.token.access_token, payload={
+                    'text': text,
+                    'messenger_id': user_id
+                }
+        ) as resp:
+            if resp.status != 200:
+                return False
+            return True
         pass
 
-    async def delete_activity(self):
-        pass
+    async def create_activity_reply(self, text: str, reply_id: int):
+        async with self.session.post(
+            self.url + 'user/activity?access_token=' + self.token.access_token,
+                payload={
+                    'text': text,
+                    'reply_id': reply_id
+                }
+        ) as resp:
+            if resp.status != 200:
+                return False
+            return True
+
+    async def delete_activity(self, activity_id: int):
+        async with self.session.delete(
+            self.url + 'user/activity?access_token=' + self.token.access_token,
+                payload={
+                    'id': activity_id,
+                }
+        ) as resp:
+            if resp.status != 200:
+                return False
+            return True
+
+    async def delete_activity_reply(self, reply_id: int):
+        async with self.session.delete(
+            self.url + 'user/activity/reply?access_token=' + self.token.access_token,
+                payload={
+                    'id': reply_id,
+                }
+        ) as resp:
+            if resp.status != 200:
+                return False
+            return True
 
     async def get_notifications(self):
-        pass
+        """ Only Available using Authorization Code Grant """
+        async with self.session.get(
+            self.url + 'user/notifications?access_token=' + self.token.access_token,
+        ) as resp:
+            if resp.status != 200:
+                print('ERROR: AniListClient returned error code : ' + str(resp.status))
+                raise AuthenticationError(resp.status, "Did not receive status 200.")
+            return await resp.json(loads=json.loads)
 
-    async def follow(self):
-        pass
+    async def get_notifications_count(self):
+        """ Only Available using Authorization Code Grant """
+        async with self.session.get(
+            self.url + 'user/notifications/count?access_token=' + self.token.access_token,
+        ) as resp:
+            if resp.status != 200:
+                print('ERROR: AniListClient returned error code : ' + str(resp.status))
+                raise AuthenticationError(resp.status, "Did not receive status 200.")
+            return await resp.json(loads=json.loads)
 
-    async def unfollow(self):
-        pass
+    async def follow(self, user_id):
+        # TODO: Add Follow Check.
+        async with self.session.post(
+            self.url + 'user/follow?access_token=' + self.token.access_token,
+                payload={
+                    'id': user_id
+                }
+        ) as resp:
+            if resp.status != 200:
+                return False
+            return True
 
-    async def get_user_airing(self):
-        pass
+    async def unfollow(self, user_id):
+        # TODO: Add Follow Check.
+        async with self.session.post(
+            self.url + 'user/follow?access_token=' + self.token.access_token,
+                payload={
+                    'id': user_id
+                }
+        ) as resp:
+            if resp.status != 200:
+                return False
+            return True
+
+    async def get_user_airing(self, limit=10):
+        """ Only Available using Pin/Code Grant. """
+        async with self.session.get(
+            self.url + 'user/airing',
+            params={
+                'limit': limit,
+                'access_token': self.token.access_token
+            }
+        ) as resp:
+            if resp.status != 200:
+                print('ERROR: AniListClient returned error code : ' + str(resp.status))
+                raise AuthenticationError(resp.status, "Did not receive status 200.")
+            return await resp.json(loads=json.loads)
+
 
     async def create_anime_list_entry(self):
         pass

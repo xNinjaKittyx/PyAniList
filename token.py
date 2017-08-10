@@ -30,7 +30,7 @@ class Token:
     async def _refresh_access_token(self):
         while True:
             t = asyncio.time()
-            if t - self.time >= 3600:
+            if t - self.time >= 3590:
                 self.time = t
                 async with self.session.post(
                     self.url + 'auth/access_token',
