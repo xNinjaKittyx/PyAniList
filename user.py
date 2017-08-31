@@ -51,7 +51,7 @@ class User:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "user.get_activity did not receive status 200.")
+                raise InvalidResponse(resp.status, "user.get_activity did not receive status 200.")
             return await resp.json(loads=json.loads)
 
     async def get_following(self):
@@ -60,7 +60,7 @@ class User:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "user.get_activity did not receive status 200.")
+                raise InvalidResponse(resp.status, "user.get_activity did not receive status 200.")
             return await resp.json(loads=json.loads)
 
     async def get_followers(self):
@@ -69,7 +69,7 @@ class User:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "user.get_activity did not receive status 200.")
+                raise InvalidResponse(resp.status, "user.get_activity did not receive status 200.")
             return await resp.json(loads=json.loads)
 
     async def get_favourites(self):
@@ -78,7 +78,7 @@ class User:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "user.get_activity did not receive status 200.")
+                raise InvalidResponse(resp.status, "user.get_activity did not receive status 200.")
             return await resp.json(loads=json.loads)
 
     async def get_anime_list(self, raw=False):
@@ -88,7 +88,7 @@ class User:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "user.get_activity did not receive status 200.")
+                raise InvalidResponse(resp.status, "user.get_activity did not receive status 200.")
             return await resp.json(loads=json.loads)
 
     async def get_manga_list(self, raw=False):
@@ -98,5 +98,5 @@ class User:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListUser returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "user.get_activity did not receive status 200.")
+                raise InvalidResponse(resp.status, "user.get_activity did not receive status 200.")
             return await resp.json(loads=json.loads)

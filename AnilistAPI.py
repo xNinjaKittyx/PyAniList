@@ -47,7 +47,7 @@ class AniListClient:
         self.url = 'https://anilist.co/api/'
         self.session = aiohttp.ClientSession(loop=self.loop, json_serialize=json.dumps)
         self.time = 0
-        self.token = Token(self.loop, self.session, self.client_id, self.client_secret, self.client_pin)
+        self.token = Token(self.loop, self.session, self.client_id, self.client_secret, client_pin)
         self.user = None
         self.loop.run_until_complete(self.get_current_user())
 
@@ -57,7 +57,7 @@ class AniListClient:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "Did not receive status 200.")
+                raise InvalidResponse(resp.status, "Did not receive status 200.")
             response = await resp.json(loads=json.loads)
             self.user = User(response, self.session)
 
@@ -67,7 +67,7 @@ class AniListClient:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "Did not receive status 200.")
+                raise InvalidResponse(resp.status, "Did not receive status 200.")
             response = await resp.json(loads=json.loads)
             return User(response, self.session)
 
@@ -78,7 +78,7 @@ class AniListClient:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "Did not receive status 200.")
+                raise InvalidResponse(resp.status, "Did not receive status 200.")
             response = await resp.json(loads=json.loads)
             if response.get('error', False):
                 return None
@@ -171,7 +171,7 @@ class AniListClient:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "Did not receive status 200.")
+                raise InvalidResponse(resp.status, "Did not receive status 200.")
             return await resp.json(loads=json.loads)
 
     async def get_notifications_count(self):
@@ -181,7 +181,7 @@ class AniListClient:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "Did not receive status 200.")
+                raise InvalidResponse(resp.status, "Did not receive status 200.")
             return await resp.json(loads=json.loads)
 
     async def follow(self, user_id):
@@ -219,27 +219,41 @@ class AniListClient:
         ) as resp:
             if resp.status != 200:
                 print('ERROR: AniListClient returned error code : ' + str(resp.status))
-                raise AuthenticationError(resp.status, "Did not receive status 200.")
+                raise InvalidResponse(resp.status, "Did not receive status 200.")
             return await resp.json(loads=json.loads)
 
 
-    async def create_anime_list_entry(self):
+    async def create_anime_list_entry(self, anime_id, list_status, score, score_raw, episodes_watched, rewatched, notes, adv_rating_scores, custom_lists, hidden_default):
         pass
 
-    async def edit_anime_list_entry(self):
+    async def edit_anime_list_entry(self, anime_id, list_status, score, score_raw, episodes_watched, rewatched, notes, adv_rating_scores, custom_lists, hidden_default):
         pass
 
-    async def remove_anime_list_entry(self):
+    async def remove_anime_list_entry(self, anime_id):
         pass
 
-    async def create_manga_list_entry(self):
+    async def create_manga_list_entry(self, manga_id, list_status, score, score_raw, volumes_read, chapters_read, reread, notes, adv_rating_scores, custom_lists, hidden_default):
         pass
 
-    async def edit_manga_list_entry(self):
+    async def edit_manga_list_entry(self, manga_id, list_status, score, score_raw, volumes_read, chapters_read, reread, notes, adv_rating_scores, custom_lists, hidden_default):
         pass
 
-    async def remove_manga_list_entry(self):
+    async def remove_manga_list_entry(self, manga_id):
         pass
+
+    async def get_anime(self, anime_id):
+        pass
+
+    async def get_manga(self, anime_id):
+        pass
+
+    async def get_anime_page(self, anime_id):
+        pass
+
+    async def get_manga_page(self, manga_id):
+        pass
+
+    async def 
 
     async def get_character(self, id):
         pass
@@ -269,6 +283,7 @@ class AniListClient:
         pass
 
     async def get_studio(self, id):
+        pass
 
     async def search_studio(self, query):
         pass
