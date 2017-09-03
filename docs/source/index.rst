@@ -6,12 +6,19 @@
 PyAniList documentation!
 =====================================
 
+Welcome to PyAniList Documentation!
+
+
+Introduction
+============
+This API Wrapper is currently a work in progress. There will be slow but steady updates to cover the API. Currently, the API covers about 30% of the API. 
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-Welcome to PyAniList Documentation!
-
+   
+   client
 
 Table of Contents
 ==================
@@ -19,9 +26,3 @@ Table of Contents
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-Introduction
-============
-Starting a AniList Session is fairly simple. To create a session, use AniListClient::
-
-    anilist_client = AniListClient(client_id, client_secret, client_pin, loop=None)
